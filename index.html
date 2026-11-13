@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#08040c">
+<title>The Two Minutes | Meri Areshey</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;min-height:100vh;overflow-x:hidden;
+ background:radial-gradient(ellipse at center,#351626,#100914 55%,#050309);
+ color:#f9e5d0;font-family:Georgia,serif;
+ display:flex;align-items:center;justify-content:center;
+}
+#stars,.petals{position:fixed;inset:0;pointer-events:none}
+.star{position:absolute;width:2px;height:2px;background:#ffe3a8;border-radius:50%;animation:twinkle 3s infinite alternate}
+@keyframes twinkle{to{opacity:.15;transform:scale(.4)}}
+.petal{position:absolute;top:-30px;width:12px;height:17px;
+ background:linear-gradient(135deg,#f7c1cb,#9e405f);
+ border-radius:100% 0 100% 0;animation:fall linear infinite}
+@keyframes fall{to{transform:translate(70px,110vh) rotate(700deg)}}
+main{position:relative;z-index:2;width:min(92%,520px);text-align:center;padding:30px 12px}
+.eyebrow{font:10px Arial;letter-spacing:4px;color:#d8b37d;text-transform:uppercase}
+h1{font-size:clamp(43px,12vw,72px);font-weight:normal;line-height:1;margin:22px 0;color:#f8dfb6;text-shadow:0 0 25px #df9b8b66}
+p{font-size:19px;line-height:1.8;color:#e9dce1}
+.small{font:12px/1.8 Arial;color:#bca7b5}
+.line{height:1px;width:85px;background:#d6b47c;margin:25px auto}
+.scene{animation:appear 1s ease both}
+@keyframes appear{from{opacity:0;transform:translateY(20px) rotateX(8deg)}to{opacity:1;transform:none}}
+.hidden{display:none!important}
+.clock-area{height:225px;display:grid;place-items:center;perspective:800px}
+.clock{
+ width:170px;height:170px;border-radius:50%;
+ border:1px solid #dfbc82;display:grid;place-items:center;
+ background:radial-gradient(circle,#472033,#130c17);
+ box-shadow:0 0 40px #e0b47c33,inset 0 0 25px #d9a46b33;
+ animation:float 4s ease-in-out infinite;position:relative;
+}
+.clock:before{content:"";position:absolute;inset:-12px;border:1px solid #d8b77b44;border-radius:50%;transform:rotateX(65deg)}
+.clock span{font-size:52px;color:#f7dfb6}
+.clock label{position:absolute;bottom:29px;font:9px Arial;letter-spacing:3px;color:#e9c99b}
+@keyframes float{50%{transform:translateY(-10px) rotateY(10deg)}}
+button{
+ background:linear-gradient(135deg,#492635,#170d19);
+ border:1px solid #d9b77f;color:#f8dfb6;
+ padding:15px 25px;border-radius:40px;
+ font:11px Arial;letter-spacing:2px;text-transform:uppercase;
+ margin:12px 5px;cursor:pointer;
+ box-shadow:0 0 25px #d6a46b22;
+}
+button:active{transform:scale(.96)}
+.heart{font-size:120px;filter:drop-shadow(0 0 22px #f16c91);animation:beat 1.5s infinite}
+@keyframes beat{15%{transform:scale(1.15)}30%{transform:scale(1)}45%{transform:scale(1.1)}}
+.signature{font-size:23px;font-style:italic;color:#eac69f}
+</style>
+</head>
+<body>
+<div id="stars"></div>
+<div class="petals" id="petals"></div>
+
+<main>
+<section id="s0" class="scene">
+ <div class="eyebrow">A little universe made for you</div>
+ <h1>The Two<br>Minutes</h1>
+ <div class="eyebrow">FOR MERI ARESHEY</div>
+ <div class="line"></div>
+ <div class="clock-area">
+  <div class="clock">
+   <span>♡</span>
+   <label>00 : 02</label>
+  </div>
+ </div>
+ <p>Some moments are small on the clock,<br>but big in the heart.</p>
+ <div class="small">Meri Areshey, will you give me a moment?</div>
+ <button onclick="start()">Enter My Universe ♡</button>
+</section>
+
+<section id="s1" class="scene hidden">
+ <div class="eyebrow">Chapter I · The coincidence</div>
+ <h1>Those Two<br>Minutes</h1>
+ <div class="line"></div>
+ <p>You told me that if I waited for you, you'd reply in two minutes.</p>
+ <p>I was waiting. But by coincidence, at that exact moment, I went to the washroom.</p>
+ <p class="small">I wasn't ignoring you. I never intended to leave you waiting.</p>
+ <button onclick="next(2)">Continue ♡</button>
+</section>
+
+<section id="s2" class="scene hidden">
+ <div class="eyebrow">Chapter II · From my heart</div>
+ <div class="heart">♥</div>
+ <p>I understand that it may have felt like I didn't value your time.</p>
+ <p>Your feelings matter to me. I should have explained myself as soon as I came back.</p>
+ <button onclick="next(3)">One Last Thing</button>
+</section>
+
+<section id="s3" class="scene hidden">
+ <div class="eyebrow">My apology · Just for you</div>
+ <h1 style="font-size:48px">Meri Areshey</h1>
+ <div class="line"></div>
+ <p style="font-size:26px">I'm genuinely sorry. ❤️</p>
+ <p>It was an unintentional moment, never a lack of care.</p>
+ <p>I cannot ask you to stop feeling hurt, but I can listen, understand and be more thoughtful next time.</p>
+ <div class="signature">With care,<br>Ali ❤️</div>
+ <p class="small">No pressure to reply right away. Take the time you need.</p>
+ <button onclick="next(0)">Read Again ♡</button>
+</section>
+</main>
+
+<script>
+const stars=document.getElementById('stars');
+const petals=document.getElementById('petals');
+
+for(let i=0;i<80;i++){
+ let x=document.createElement('i');
+ x.className='star';
+ x.style.left=Math.random()*100+'%';
+ x.style.top=Math.random()*100+'%';
+ x.style.animationDelay=Math.random()*4+'s';
+ stars.appendChild(x);
+}
+for(let i=0;i<22;i++){
+ let x=document.createElement('i');
+ x.className='petal';
+ x.style.left=Math.random()*100+'%';
+ x.style.animationDuration=(9+Math.random()*12)+'s';
+ x.style.animationDelay=(-Math.random()*15)+'s';
+ petals.appendChild(x);
+}
+
+let ctx=null,playing=false,timer=null;
+function start(){
+ if(!playing){
+  try{
+   ctx=new(window.AudioContext||window.webkitAudioContext)();
+   playing=true;
+   let notes=[196,246.94,293.66,246.94,220,261.63,329.63,261.63];
+   let n=0;
+   function play(){
+    if(!playing)return;
+    let o=ctx.createOscillator();
+    let g=ctx.createGain();
+    o.type='sine';
+    o.frequency.value=notes[n++%notes.length];
+    g.gain.setValueAtTime(.0001,ctx.currentTime);
+    g.gain.linearRampToValueAtTime(.035,ctx.currentTime+.5);
+    g.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+2);
+    o.connect(g);g.connect(ctx.destination);
+    o.start();o.stop(ctx.currentTime+2.1);
+   }
+   play();timer=setInterval(play,1700);
+  }catch(e){}
+ }
+ next(1);
+}
+function next(n){
+ document.querySelectorAll('main section').forEach(s=>s.classList.add('hidden'));
+ let el=document.getElementById('s'+n);
+ el.classList.remove('hidden');
+ el.classList.remove('scene');
+ void el.offsetWidth;
+ el.classList.add('scene');
+ if(navigator.vibrate)navigator.vibrate(n===3?[40,40,80]:25);
+}
+document.addEventListener('visibilitychange',()=>{
+ if(ctx){if(document.hidden)ctx.suspend();else if(playing)ctx.resume();}
+});
+</script>
+</body>
+</html>
